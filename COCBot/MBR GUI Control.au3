@@ -39,7 +39,6 @@ Global $g_hFrmBot_WNDPROC_ptr = 0
 #include "GUI\MBR GUI Control Milking.au3"
 #include "GUI\MBR GUI Control Attack Standard.au3"
 #include "GUI\MBR GUI Control Attack Scripted.au3"
-#include "GUI\MBR GUI Control Achievements.au3"
 #include "GUI\MBR GUI Control Notify.au3"
 #include "GUI\MBR GUI Control Child Upgrade.au3"
 #include "GUI\MBR GUI Control Donate.au3"
@@ -468,7 +467,7 @@ Func GUIControl_WM_COMMAND($hWind, $iMsg, $wParam, $lParam)
 						OpenURL_Label($CursorInfo[4])
 				EndSwitch
 			EndIf
-		Case $g_hLblMyBotURL, $g_hLblForumURL, $g_hLblUnbreakableLink
+		Case $g_hLblMyBotURL, $g_hLblForumURL
 			; Handle open URL when label fires the event normally
 			OpenURL_Label($nID)
 		Case $g_hFrmBot_URL_PIC, $g_hFrmBot_URL_PIC2
@@ -1992,7 +1991,7 @@ Func Bind_ImageList($nCtrl, ByRef $hImageList)
 
 		Case $g_hGUI_VILLAGE_TAB
 			; the icons for village tab
-			Local $aIconIndex = [$eIcnTH1, $eIcnCC, $eIcnLaboratory, $eIcnAchievements, $eIcnTelegram]
+			Local $aIconIndex = [$eIcnTH1, $eIcnCC, $eIcnLaboratory, $eIcnTelegram]
 
 		Case $g_hGUI_TRAINARMY_TAB
 			; the icons for army tab

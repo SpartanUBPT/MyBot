@@ -183,8 +183,6 @@ Func ReadRegularConfig()
 	ReadConfig_600_1()
 	; <><><><> Village / Misc <><><><>
 	ReadConfig_600_6()
-	; <><><><> Village / Achievements <><><><>
-	ReadConfig_600_9()
 	; <><><><> Village / Donate - Request <><><><>
 	ReadConfig_600_11()
 	; <><><><> Village / Donate - Donate <><><><>
@@ -424,18 +422,6 @@ Func ReadConfig_600_6()
 	IniReadS($g_bChkClanGamesMiscellaneous, $g_sProfileConfigPath, "other", "ChkClanGamesMiscellaneous", False, "Bool")
 	IniReadS($g_iPurgeMax, $g_sProfileConfigPath, "other", "PurgeMax", 5, "int")
 EndFunc   ;==>ReadConfig_600_6
-
-Func ReadConfig_600_9()
-	; <><><><> Village / Achievements <><><><>
-	IniReadS($g_iUnbrkMode, $g_sProfileConfigPath, "Unbreakable", "chkUnbreakable", 0, "int")
-	IniReadS($g_iUnbrkWait, $g_sProfileConfigPath, "Unbreakable", "UnbreakableWait", 5, "int")
-	IniReadS($g_iUnbrkMinGold, $g_sProfileConfigPath, "Unbreakable", "minUnBrkgold", 50000, "int")
-	IniReadS($g_iUnbrkMaxGold, $g_sProfileConfigPath, "Unbreakable", "maxUnBrkgold", 600000, "int")
-	IniReadS($g_iUnbrkMinElixir, $g_sProfileConfigPath, "Unbreakable", "minUnBrkelixir", 50000, "int")
-	IniReadS($g_iUnbrkMaxElixir, $g_sProfileConfigPath, "Unbreakable", "maxUnBrkelixir", 600000, "int")
-	IniReadS($g_iUnbrkMinDark, $g_sProfileConfigPath, "Unbreakable", "minUnBrkdark", 5000, "int")
-	IniReadS($g_iUnbrkMaxDark, $g_sProfileConfigPath, "Unbreakable", "maxUnBrkdark", 10000, "int")
-EndFunc   ;==>ReadConfig_600_9
 
 Func ReadConfig_600_11()
 	; <><><><> Village / Donate - Request <><><><>

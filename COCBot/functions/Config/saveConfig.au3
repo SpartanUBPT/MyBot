@@ -165,8 +165,6 @@ Func SaveRegularConfig()
 	SaveConfig_600_1()
 	; <><><><> Village / Misc <><><><>
 	SaveConfig_600_6()
-	; <><><><> Village / Achievements <><><><>
-	SaveConfig_600_9()
 	; <><><><> Village / Donate - Request <><><><>
 	SaveConfig_600_11()
 	; <><><><> Village / Donate - Donate <><><><>
@@ -372,19 +370,6 @@ Func SaveConfig_600_6()
 
 
 EndFunc   ;==>SaveConfig_600_6
-
-Func SaveConfig_600_9()
-	; <><><><> Village / Achievements <><><><>
-	ApplyConfig_600_9(GetApplyConfigSaveAction())
-	_Ini_Add("Unbreakable", "chkUnbreakable", $g_iUnbrkMode)
-	_Ini_Add("Unbreakable", "UnbreakableWait", $g_iUnbrkWait)
-	_Ini_Add("Unbreakable", "minUnBrkgold", $g_iUnbrkMinGold)
-	_Ini_Add("Unbreakable", "minUnBrkelixir", $g_iUnbrkMinElixir)
-	_Ini_Add("Unbreakable", "minUnBrkdark", $g_iUnbrkMinDark)
-	_Ini_Add("Unbreakable", "maxUnBrkgold", $g_iUnbrkMaxGold)
-	_Ini_Add("Unbreakable", "maxUnBrkelixir", $g_iUnbrkMaxElixir)
-	_Ini_Add("Unbreakable", "maxUnBrkdark", $g_iUnbrkMaxDark)
-EndFunc   ;==>SaveConfig_600_9
 
 Func SaveConfig_600_11()
 	ApplyConfig_600_11(GetApplyConfigSaveAction())

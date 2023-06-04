@@ -38,7 +38,7 @@ Func CreateVillageNotify()
 
 	GUISwitch($g_hGUI_NOTIFY)
 	$g_hGUI_NOTIFY_TAB = GUICtrlCreateTab(0, 0, $g_iSizeWGrpTab2, $g_iSizeHGrpTab2, BitOR($TCS_MULTILINE, $TCS_RIGHTJUSTIFY))
-	$g_hGUI_NOTIFY_TAB_ITEM2 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_02_STab_05_STab_01", "Telegram"))
+	$g_hGUI_NOTIFY_TAB_ITEM2 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_02_STab_04_STab_01", "Telegram"))
 		CreatePushBulletTelegramSubTab()
 	GUICtrlCreateTabItem("")
 

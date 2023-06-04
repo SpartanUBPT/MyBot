@@ -26,7 +26,6 @@ MBR GUI Design.au3; CreateMainGUI()
 	  MBR GUI Design Child Village - Misc.au3; CreateVillageMisc()
 	  MBR GUI Design Child Village - Donate.au3; CreateVillageDonate()
 	  MBR GUI Design Child Village - Upgrade.au3; CreateVillageUpgrade()
-	  MBR GUI Design Child Village - Achievements.au3; CreateVillageAchievements()
 	  MBR GUI Design Child Village - Notify.au3; CreateVillageNotify()
 
    MBR GUI Design Attack.au3; CreateAttackTab()

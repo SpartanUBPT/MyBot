@@ -64,8 +64,6 @@ Func applyConfig($bRedrawAtExit = True, $TypeReadSave = "Read") ;Applies the dat
 	ApplyConfig_600_1($TypeReadSave)
 	; <><><><> Village / Misc <><><><>
 	ApplyConfig_600_6($TypeReadSave)
-	; <><><><> Village / Achievements <><><><>
-	ApplyConfig_600_9($TypeReadSave)
 	; <><><><> Village / Donate - Request <><><><>
 	ApplyConfig_600_11($TypeReadSave)
 	; <><><><> Village / Donate - Donate <><><><>
@@ -375,31 +373,6 @@ Func ApplyConfig_600_6($TypeReadSave)
 			$g_iPurgeMax = _GUICtrlComboBox_GetCurSel($g_hcmbPurgeLimit)
 	EndSwitch
 EndFunc   ;==>ApplyConfig_600_6
-
-Func ApplyConfig_600_9($TypeReadSave)
-	; <><><><> Village / Achievements <><><><>
-	Switch $TypeReadSave
-		Case "Read"
-			GUICtrlSetState($g_hChkUnbreakable, $g_iUnbrkMode = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
-			GUICtrlSetData($g_hTxtUnbreakable, $g_iUnbrkWait)
-			GUICtrlSetData($g_hTxtUnBrkMinGold, $g_iUnbrkMinGold)
-			GUICtrlSetData($g_hTxtUnBrkMinElixir, $g_iUnbrkMinElixir)
-			GUICtrlSetData($g_hTxtUnBrkMinDark, $g_iUnbrkMinDark)
-			GUICtrlSetData($g_hTxtUnBrkMaxGold, $g_iUnbrkMaxGold)
-			GUICtrlSetData($g_hTxtUnBrkMaxElixir, $g_iUnbrkMaxElixir)
-			GUICtrlSetData($g_hTxtUnBrkMaxDark, $g_iUnbrkMaxDark)
-			chkUnbreakable()
-		Case "Save"
-			$g_iUnbrkMode = GUICtrlRead($g_hChkUnbreakable) = $GUI_CHECKED ? 1 : 0
-			$g_iUnbrkWait = GUICtrlRead($g_hTxtUnbreakable)
-			$g_iUnbrkMinGold = GUICtrlRead($g_hTxtUnBrkMinGold)
-			$g_iUnbrkMinElixir = GUICtrlRead($g_hTxtUnBrkMinElixir)
-			$g_iUnbrkMinDark = GUICtrlRead($g_hTxtUnBrkMinDark)
-			$g_iUnbrkMaxGold = GUICtrlRead($g_hTxtUnBrkMaxGold)
-			$g_iUnbrkMaxElixir = GUICtrlRead($g_hTxtUnBrkMaxElixir)
-			$g_iUnbrkMaxDark = GUICtrlRead($g_hTxtUnBrkMaxDark)
-	EndSwitch
-EndFunc   ;==>ApplyConfig_600_9
 
 Func ApplyConfig_600_11($TypeReadSave)
 	; <><><><> Village / Donate - Request <><><><>

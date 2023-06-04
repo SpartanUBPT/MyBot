@@ -784,9 +784,6 @@ Func runBot() ;Bot that runs everything in order
 
 				If $g_bRunState = False Then Return
 				If $g_bRestart = True Then ContinueLoop
-				If $g_iUnbrkMode >= 1 Then
-					If Unbreakable() = True Then ContinueLoop
-				EndIf
 			EndIf
 			If ($g_iCommandStop = 3 Or $g_iCommandStop = 0) Then ; Train Donate only - force a donate cc everytime, Ignore any SkipDonate Near Full Values
 				If BalanceDonRec(True) Then DonateCC()

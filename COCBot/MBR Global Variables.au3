@@ -539,7 +539,6 @@ Global Enum $eIcnArcher = 1, $eIcnDonArcher, $eIcnBalloon, $eIcnDonBalloon, $eIc
 
 Global $eIcnDonBlank = $eIcnDonBlacklist
 Global $eIcnOptions = $eIcnDonBlacklist
-Global $eIcnAchievements = $eIcnMain
 
 ; Controls bot startup and ongoing operation
 Global Const $g_iCollectAtCount = 10 ; Run Collect() after this amount of times before actually collect
@@ -907,10 +906,6 @@ Global $g_iChkBBSuggestedUpgrades = 0, $g_iChkBBSuggestedUpgradesIgnoreGold = 0,
 Global $g_iChkPlacingNewBuildings = 0
 
 Global $g_iQuickMISX = 0, $g_iQuickMISY = 0
-
-; <><><><> Village / Achievements <><><><>
-Global $g_iUnbrkMode = 0, $g_iUnbrkWait = 5
-Global $g_iUnbrkMinGold = 50000, $g_iUnbrkMinElixir = 50000, $g_iUnbrkMaxGold = 600000, $g_iUnbrkMaxElixir = 600000, $g_iUnbrkMinDark = 5000, $g_iUnbrkMaxDark = 6000
 
 ; <><><><> Village / Notify <><><><>
 Global Const $g_sCurlPath = $g_sLibPath & "\curl\curl.exe" ; Curl used on PushBullet
