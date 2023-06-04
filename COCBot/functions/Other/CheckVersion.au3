@@ -20,7 +20,7 @@ Func CheckVersion()
 
 	; Get the last Version from API
 	Local $g_sBotGitVersion = ""
-	Local $sCorrectStdOut = InetRead("https://api.github.com/repos/MyBotRun/MyBot/releases/latest")
+	Local $sCorrectStdOut = InetRead("https://api.github.com/repos/SpartanUBPT/MyBot/releases/latest")
 	If @error Or $sCorrectStdOut = "" Then Return
 	Local $Temp = BinaryToString($sCorrectStdOut)
 
@@ -59,7 +59,9 @@ Func GetLastVersion($txt)
 EndFunc   ;==>GetLastVersion
 
 Func GetLastChangeLog($txt)
-	Return _StringBetween($txt, '"body":"', '"}')
+	Local $sChangeLog = _StringBetween($txt, '"body":"', '"}')
+	If @error Then $sChangeLog = _StringBetween($txt, '"body":"', '","')
+	Return $sChangeLog
 EndFunc   ;==>GetLastChangeLog
 
 Func GetVersionNormalized($VersionString, $Chars = 5)
