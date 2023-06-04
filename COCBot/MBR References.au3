@@ -27,14 +27,11 @@ Func ReferenceFunctions()
 	GetFont()
 	btnConfigureCollectors()
 	btnConfigureReduction()
-	btnConfigureTHBully()
 	btnConfigureDBWeakBase()
 	btnConfigureABWeakBase()
 	EnableSearchPanels(0)
-	btnMilkingOptions()
 	btnDBAttackConfigure()
 	btnABAttackConfigure()
-	btnTestTHcsv()
 	btnConfigureReplayShare()
 	btnLoots()
 	btnLogs()
@@ -43,9 +40,6 @@ Func ReferenceFunctions()
 	RedrawBotWindowNow()
 	_GUICtrlListView_SetItemHeightByFont(0, 0)
 	_GUICtrlListView_GetHeightToFitRows(0, 0)
-	;Barch()
-	MilkingDebug()
-	CheckMilkingBaseTest()
 	SortRedline(0, 0, 0)
 	_SortRedline(0)
 	FindClosestToAxis(0)
@@ -230,9 +224,6 @@ Func ReferenceGlobals()
 	; Reference to variables
 	Local $a1
 	$a1 = $g_aaiTroopsToBeUsed
-	$a1 = $g_asMilkFarmOffsetMine
-	$a1 = $g_asMilkFarmOffsetElixir
-	$a1 = $g_asMilkFarmOffsetDark
 	$a1 = $aArmyCCRemainTime
 	$a1 = $aIsReloadError
 	$a1 = $g_iAndroidControlClickWindow

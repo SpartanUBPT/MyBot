@@ -18,10 +18,7 @@ Func dropCC($x, $y, $slot) ;Drop clan castle
 
 	Local $test1 = False
 	Local $test2 = False
-	If $g_iMatchMode = $MA And $g_abAttackDropCC[$DB] Then $test1 = True
-	If $g_iMatchMode <> $MA Then
-		If ($g_iMatchMode <> $DB And $g_iMatchMode <> $LB And $g_iMatchMode <> $MA) Or $g_abAttackDropCC[$g_iMatchMode] Then $test2 = True
-	EndIf
+	If ($g_iMatchMode <> $DB And $g_iMatchMode <> $LB) Or $g_abAttackDropCC[$g_iMatchMode] Then $test2 = True
 
 	If $slot <> -1 And ($test1 Or $test2) Then
 		If $g_bPlannedDropCCHoursEnable = True Then

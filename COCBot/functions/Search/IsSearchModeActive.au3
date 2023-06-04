@@ -51,8 +51,6 @@ Func IsSearchModeActive($g_iMatchMode, $nocheckHeroes = False, $bNoLog = False)
 			$bMatchModeEnabled = $g_abAttackTypeEnable[$DB]
 		Case $LB
 			$bMatchModeEnabled = $g_abAttackTypeEnable[$LB]
-		Case $TS
-			$bMatchModeEnabled = $g_abAttackTypeEnable[$TS]
 		Case Else
 			$bMatchModeEnabled = False
 	EndSwitch

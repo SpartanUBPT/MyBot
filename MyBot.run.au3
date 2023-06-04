@@ -546,11 +546,6 @@ Func FinalInitialization(Const $sAI)
 	EndIf
 	SetLog(GetTranslatedFileIni("MBR GUI Design - Loading", "Msg_Android_instance_04", "Android Emulator Configuration: %s", $sAI), $COLOR_SUCCESS)
 
-	;AdlibRegister("PushBulletRemoteControl", $g_iPBRemoteControlInterval)
-	;AdlibRegister("PushBulletDeleteOldPushes", $g_iPBDeleteOldPushesInterval)
-
-	LoadAmountOfResourcesImages()
-
 	; reset GUI to wait for remote GUI in no GUI mode
 	$g_iGuiPID = @AutoItPID
 
@@ -1014,7 +1009,7 @@ Func AttackMain() ;Main control for attack functions
 	; getArmyTroopCapacity(True, True)
 	ClickP($aAway, 1, 0, "#0000") ;Click Away to prevent any pages on top
 	If IsSearchAttackEnabled() Then
-		If (IsSearchModeActive($DB) And checkCollectors(True, False)) Or IsSearchModeActive($LB) Or IsSearchModeActive($TS) Then
+		If (IsSearchModeActive($DB) And checkCollectors(True, False)) Or IsSearchModeActive($LB) Then
 			If ProfileSwitchAccountEnabled() And ($g_aiAttackedCountSwitch[$g_iCurAccount] <= $g_aiAttackedCount - 2) Then checkSwitchAcc()
 			If $g_bUseCCBalanced = True Then ;launch profilereport() only if option balance D/R it's activated
 				ProfileReport()
@@ -1033,7 +1028,6 @@ Func AttackMain() ;Main control for attack functions
 			If $g_bDebugSetlog Then
 				SetDebugLog(_PadStringCenter(" Hero status check" & BitAND($g_aiAttackUseHeroes[$DB], $g_aiSearchHeroWaitEnable[$DB], $g_iHeroAvailable) & "|" & $g_aiSearchHeroWaitEnable[$DB] & "|" & $g_iHeroAvailable, 54, "="), $COLOR_DEBUG)
 				SetDebugLog(_PadStringCenter(" Hero status check" & BitAND($g_aiAttackUseHeroes[$LB], $g_aiSearchHeroWaitEnable[$LB], $g_iHeroAvailable) & "|" & $g_aiSearchHeroWaitEnable[$LB] & "|" & $g_iHeroAvailable, 54, "="), $COLOR_DEBUG)
-				;SetLog("BullyMode: " & $g_abAttackTypeEnable[$TB] & ", Bully Hero: " & BitAND($g_aiAttackUseHeroes[$g_iAtkTBMode], $g_aiSearchHeroWaitEnable[$g_iAtkTBMode], $g_iHeroAvailable) & "|" & $g_aiSearchHeroWaitEnable[$g_iAtkTBMode] & "|" & $g_iHeroAvailable, $COLOR_DEBUG)
 			EndIf
 			_ClanGames()
 			ClickP($aAway, 1, 0, "#0000") ;Click Away to prevent any pages on top
@@ -1076,9 +1070,6 @@ Func Attack() ;Selects which algorithm
 		If $g_bDebugSetlog Then SetDebugLog("start scripted attack", $COLOR_ERROR)
 		Algorithm_AttackCSV()
 	ElseIf $g_iMatchMode = $DB And $g_aiAttackAlgorithm[$DB] = 2 Then
-		If $g_bDebugSetlog Then SetDebugLog("start milking attack", $COLOR_ERROR)
-		Alogrithm_MilkingAttack()
-	ElseIf $g_iMatchMode = $DB And $g_aiAttackAlgorithm[$DB] = 3 Then
 		If $g_bDebugSetlog Then SetDebugLog("start smart farm attack", $COLOR_ERROR)
 		; Variable to return : $Return[3]  [0] = To attack InSide  [1] = Quant. Sides  [2] = Name Sides
 		Local $Nside = ChkSmartFarm()
@@ -1093,13 +1084,9 @@ EndFunc   ;==>Attack
 
 
 Func QuickAttack()
-
-	Local $quicklymilking = 0
-	Local $quicklythsnipe = 0
-
 	getArmyTroopCapacity(True, True)
 
-	If ($g_aiAttackAlgorithm[$DB] = 2 And IsSearchModeActive($DB)) Or (IsSearchModeActive($TS)) Then
+	If ($g_aiAttackAlgorithm[$DB] = 2 And IsSearchModeActive($DB)) Then
 		VillageReport()
 	EndIf
 
@@ -1108,27 +1095,6 @@ Func QuickAttack()
 		If $g_bDebugSetlog Then SetDebugLog("No quickly re-attack, need to drop tropies", $COLOR_DEBUG)
 		Return False ;need to drop tropies
 	EndIf
-
-	If $g_aiAttackAlgorithm[$DB] = 2 And IsSearchModeActive($DB) Then
-		If Int($g_CurrentCampUtilization) >= $g_iTotalCampSpace * $g_aiSearchCampsPct[$DB] / 100 And $g_abSearchCampsEnable[$DB] Then
-			If $g_bDebugSetlog Then SetDebugLog("Milking: Quickly re-attack " & Int($g_CurrentCampUtilization) & " >= " & $g_iTotalCampSpace & " * " & $g_aiSearchCampsPct[$DB] & "/100 " & "= " & $g_iTotalCampSpace * $g_aiSearchCampsPct[$DB] / 100, $COLOR_DEBUG)
-			Return True ;milking attack OK!
-		Else
-			If $g_bDebugSetlog Then SetDebugLog("Milking: No Quickly re-attack:  cur. " & Int($g_CurrentCampUtilization) & "  need " & $g_iTotalCampSpace * $g_aiSearchCampsPct[$DB] / 100 & " firststart = " & ($g_bQuicklyFirstStart), $COLOR_DEBUG)
-			Return False ;milking attack no restart.. no enough army
-		EndIf
-	EndIf
-
-	If IsSearchModeActive($TS) Then
-		If Int($g_CurrentCampUtilization) >= $g_iTotalCampSpace * $g_aiSearchCampsPct[$TS] / 100 And $g_abSearchCampsEnable[$TS] Then
-			If $g_bDebugSetlog Then SetDebugLog("THSnipe: Quickly re-attack " & Int($g_CurrentCampUtilization) & " >= " & $g_iTotalCampSpace & " * " & $g_aiSearchCampsPct[$TS] & "/100 " & "= " & $g_iTotalCampSpace * $g_aiSearchCampsPct[$TS] / 100, $COLOR_DEBUG)
-			Return True ;ts snipe attack OK!
-		Else
-			If $g_bDebugSetlog Then SetDebugLog("THSnipe: No Quickly re-attack:  cur. " & Int($g_CurrentCampUtilization) & "  need " & $g_iTotalCampSpace * $g_aiSearchCampsPct[$TS] / 100 & " firststart = " & ($g_bQuicklyFirstStart), $COLOR_DEBUG)
-			Return False ;ts snipe no restart... no enough army
-		EndIf
-	EndIf
-
 EndFunc   ;==>QuickAttack
 
 Func _RunFunction($action)

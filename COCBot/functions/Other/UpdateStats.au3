@@ -31,11 +31,10 @@ Func UpdateStats($bForceUpdate = False)
 	Static $iOldNbrOfWallsUppedGold, $iOldNbrOfWallsUppedElixir, $iOldNbrOfBuildingsUppedGold, $iOldNbrOfBuildingsUppedElixir, $iOldNbrOfHeroesUpped ; number of wall, building, hero upgrades with gold, elixir, delixir
 	Static $iOldSearchCost, $iOldTrainCostElixir, $iOldTrainCostDElixir, $iOldTrainCostGold ; search and train troops cost
 	Static $iOldNbrOfOoS ; number of Out of Sync occurred
-	Static $iOldNbrOfTHSnipeFails, $iOldNbrOfTHSnipeSuccess ; number of fails and success while TH Sniping
 	Static $iOldGoldFromMines, $iOldElixirFromCollectors, $iOldDElixirFromDrills ; number of resources gain by collecting mines, collectors, drills
-	Static $iOldAttackedCount, $iOldAttackedVillageCount[$g_iModeCount + 1] ; number of attack villages for DB, LB, TB, TS
-	Static $iOldTotalGoldGain[$g_iModeCount + 1], $iOldTotalElixirGain[$g_iModeCount + 1], $iOldTotalDarkGain[$g_iModeCount + 1], $iOldTotalTrophyGain[$g_iModeCount + 1] ; total resource gains for DB, LB, TB, TS
-	Static $iOldNbrOfDetectedMines[$g_iModeCount + 1], $iOldNbrOfDetectedCollectors[$g_iModeCount + 1], $iOldNbrOfDetectedDrills[$g_iModeCount + 1] ; number of mines, collectors, drills detected for DB, LB, TB
+	Static $iOldAttackedCount, $iOldAttackedVillageCount[$g_iModeCount] ; number of attack villages for DB, LB, TB, TS
+	Static $iOldTotalGoldGain[$g_iModeCount], $iOldTotalElixirGain[$g_iModeCount], $iOldTotalDarkGain[$g_iModeCount], $iOldTotalTrophyGain[$g_iModeCount] ; total resource gains for DB, LB, TB, TS
+	Static $iOldNbrOfDetectedMines[$g_iModeCount], $iOldNbrOfDetectedCollectors[$g_iModeCount], $iOldNbrOfDetectedDrills[$g_iModeCount] ; number of mines, collectors, drills detected for DB, LB, TB
 	; Builder Base old values
 	Static $iOldCurrentLootBB[$eLootCountBB] ; current stats
 
@@ -75,8 +74,6 @@ Func UpdateStats($bForceUpdate = False)
 		$iOldTrainCostDElixir = 0 ; search and train troops cost
 		$iOldTrainCostGold = 0 ; Build Sieges
 		$iOldNbrOfOoS = 0 ; number of Out of Sync occurred
-		$iOldNbrOfTHSnipeFails = 0
-		$iOldNbrOfTHSnipeSuccess = 0 ; number of fails and success while TH Sniping
 		$iOldGoldFromMines = 0
 		$iOldElixirFromCollectors = 0
 		$iOldDElixirFromDrills = 0 ; number of resources gain by collecting mines, collectors, drills
@@ -409,18 +406,6 @@ Func UpdateStats($bForceUpdate = False)
 		$iOldNbrOfOoS = $g_iNbrOfOoS
 	EndIf
 
-	If $iOldNbrOfTHSnipeFails <> $g_iNbrOfTHSnipeFails Then
-		$bStatsUpdated = True
-		GUICtrlSetData($g_hLblNbrOfTSFailed, $g_iNbrOfTHSnipeFails)
-		$iOldNbrOfTHSnipeFails = $g_iNbrOfTHSnipeFails
-	EndIf
-
-	If $iOldNbrOfTHSnipeSuccess <> $g_iNbrOfTHSnipeSuccess Then
-		$bStatsUpdated = True
-		GUICtrlSetData($g_hLblNbrOfTSSuccess, $g_iNbrOfTHSnipeSuccess)
-		$iOldNbrOfTHSnipeSuccess = $g_iNbrOfTHSnipeSuccess
-	EndIf
-
 	If $iOldGoldFromMines <> $g_iGoldFromMines Then
 		$bStatsUpdated = True
 		GUICtrlSetData($g_hLblGoldFromMines, _NumberFormat($g_iGoldFromMines, True))
@@ -565,8 +550,6 @@ Func UpdateStats($bForceUpdate = False)
 
 	For $i = 0 To $g_iModeCount
 
-		If $i = $TS Then ContinueLoop
-
 		If $iOldNbrOfDetectedMines[$i] <> $g_aiNbrOfDetectedMines[$i] Then
 			$bStatsUpdated = True
 			GUICtrlSetData($g_hLblNbrOfDetectedMines[$i], $g_aiNbrOfDetectedMines[$i])
@@ -702,8 +685,6 @@ Func ResetStats()
 	$g_iTrainCostDElixir = 0
 	$g_iTrainCostGold = 0
 	$g_iNbrOfOoS = 0
-	$g_iNbrOfTHSnipeFails = 0
-	$g_iNbrOfTHSnipeSuccess = 0
 	$g_iGoldFromMines = 0
 	$g_iElixirFromCollectors = 0
 	$g_iDElixirFromDrills = 0

@@ -232,13 +232,6 @@ Func AttackReport()
 	EndIf
 	$g_iStatsTotalGain[$eLootTrophy] += $g_iStatsLastAttack[$eLootTrophy]
 	$g_aiTotalTrophyGain[$g_iMatchMode] += $g_iStatsLastAttack[$eLootTrophy]
-	If $g_iMatchMode = $TS Then
-		If $starsearned > 0 Then
-			$g_iNbrOfTHSnipeSuccess += 1
-		Else
-			$g_iNbrOfTHSnipeFails += 1
-		EndIf
-	EndIf
 	$g_aiAttackedVillageCount[$g_iMatchMode] += 1
 	UpdateStats()
 	UpdateSDataBase()

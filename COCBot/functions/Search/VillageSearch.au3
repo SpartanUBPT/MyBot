@@ -174,16 +174,13 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 		; $g_iSearchTH name of level of townhall (return "-" if no th found)
 		; $g_iTHx and $g_iTHy coordinates of townhall
 		Local $THString = ""
-		If $match[$DB] Or $match[$LB] Or $match[$TS] Then ; make sure resource conditions are met
+		If $match[$DB] Or $match[$LB] Then ; make sure resource conditions are met
 			$THString = FindTownhall(False, False) ;find TH, but only if TH condition is checked
 		ElseIf ($g_abFilterMeetOneConditionEnable[$DB] Or $g_abFilterMeetOneConditionEnable[$LB]) Then ; meet one then attack, do not need correct resources
 			$THString = FindTownhall(True, False)
-		ElseIf $g_abAttackTypeEnable[$TB] = 1 And ($g_iSearchCount >= $g_iAtkTBEnableCount) Then
-			; Check the TH for BullyMode
-			$THString = FindTownhall(True, False)
 		EndIf
 
-		For $i = 0 To $g_iModeCount - 2
+		For $i = 0 To $g_iModeCount - 1
 			If $isModeActive[$i] Then
 				If $g_abFilterMeetOneConditionEnable[$i] Then
 					If $g_abFilterMeetTH[$i] = False And $g_abFilterMeetTHOutsideEnable[$i] = False Then
@@ -197,9 +194,6 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 			EndIf
 		Next
 
-		; Check the TH Level for BullyMode conditional
-		If $g_iSearchTHLResult = -1 Then CompareTH(0) ; inside have a conditional to update $g_iSearchTHLResult
-
 		; ----------------- WRITE LOG OF ENEMY RESOURCES -----------------------------------
 		Local $GetResourcesTXT = StringFormat("%3s", $g_iSearchCount) & "> [G]:" & StringFormat("%7s", $g_iSearchGold) & " [E]:" & StringFormat("%7s", $g_iSearchElixir) & " [D]:" & StringFormat("%5s", $g_iSearchDark) & " [T]:" & StringFormat("%2s", $g_iSearchTrophy) & $THString
 
@@ -212,8 +206,7 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 
 		; ----------------- CHECK DEAD BASE -------------------------------------------------
 		If Not $g_bRunState Then Return
-		; check deadbase if no milking attack or milking attack but low cpu settings  ($g_iMilkAttackType=1)
-		Local $checkDeadBase = ($match[$DB] And $g_aiAttackAlgorithm[$DB] <> 2) Or $match[$LB] Or ($match[$DB] And $g_aiAttackAlgorithm[$DB] = 2 And $g_iMilkAttackType = 1)
+		Local $checkDeadBase = $match[$DB] Or $match[$LB]
 		If $checkDeadBase Then
 			$dbBase = checkDeadBase()
 		EndIf
@@ -229,7 +222,7 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 				$weakBaseValues = IsWeakBase(11, "", False)
 			EndIf
 
-			For $i = 0 To $g_iModeCount - 2
+			For $i = 0 To $g_iModeCount - 1
 				If IsWeakBaseActive($i) And (($i = $DB And $dbBase) Or $i <> $DB) And ($match[$i] Or $g_abFilterMeetOneConditionEnable[$i]) Then
 					If getIsWeak($weakBaseValues, $i) Then
 						$match[$i] = True
@@ -241,31 +234,10 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 			Next
 		EndIf
 
-		; ----------------- CHECK MILKING ----------------------------------------------------
-		CheckMilkingBase($match[$DB], $dbBase) ;update  $milkingAttackOutside, $g_sMilkFarmObjectivesSTR, $g_iSearchTH  etc.
-
 		ResumeAndroid()
 
 		; ----------------- WRITE LOG VILLAGE FOUND AND ASSIGN VALUE AT $g_iMatchMode and exitloop  IF CONTITIONS MEET ---------------------------
-		If $match[$DB] And $g_aiAttackAlgorithm[$DB] = 2 And $g_bMilkingAttackOutside = True Then
-			SetLog($GetResourcesTXT, $COLOR_SUCCESS, "Lucida Console", 7.5)
-			SetLog("      " & "Milking Attack th outside Found!", $COLOR_SUCCESS, "Lucida Console", 7.5)
-			$logwrited = True
-			$g_iMatchMode = $DB
-			ExitLoop
-		ElseIf $match[$DB] And $g_aiAttackAlgorithm[$DB] = 2 And $g_iMilkAttackType = 0 And StringLen($g_sMilkFarmObjectivesSTR) > 0 Then
-			SetLog($GetResourcesTXT, $COLOR_SUCCESS, "Lucida Console", 7.5)
-			SetLog("      " & "Milking Attack HIGH CPU SETTINGS Found!", $COLOR_SUCCESS, "Lucida Console", 7.5)
-			$logwrited = True
-			$g_iMatchMode = $DB
-			ExitLoop
-		ElseIf $match[$DB] And $g_aiAttackAlgorithm[$DB] = 2 And $g_iMilkAttackType = 1 And StringLen($g_sMilkFarmObjectivesSTR) > 0 And $dbBase Then
-			SetLog($GetResourcesTXT, $COLOR_SUCCESS, "Lucida Console", 7.5)
-			SetLog("      " & "Milking Attack LOW CPU SETTINGS Found!", $COLOR_SUCCESS, "Lucida Console", 7.5)
-			$logwrited = True
-			$g_iMatchMode = $DB
-			ExitLoop
-		ElseIf $match[$DB] And $dbBase Then
+		If $match[$DB] And $dbBase Then
 			SetLog($GetResourcesTXT, $COLOR_SUCCESS, "Lucida Console", 7.5)
 			SetLog("      " & "Dead Base Found!", $COLOR_SUCCESS, "Lucida Console", 7.5)
 			$logwrited = True
@@ -283,26 +255,6 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 			$logwrited = True
 			$g_iMatchMode = $LB
 			ExitLoop
-		ElseIf $g_abAttackTypeEnable[$TB] = 1 And ($g_iSearchCount >= $g_iAtkTBEnableCount) Then ; TH bully doesn't need the resources conditions
-			If $g_iSearchTHLResult = 1 Then
-				SetLog($GetResourcesTXT, $COLOR_SUCCESS, "Lucida Console", 7.5)
-				SetLog("      " & "Not a match, but TH Bully Level Found! ", $COLOR_SUCCESS, "Lucida Console", 7.5)
-				$logwrited = True
-				$g_iMatchMode = $g_iAtkTBMode
-				ExitLoop
-			EndIf
-		EndIf
-
-		If SearchTownHallLoc() And $match[$TS] Then ; attack this base anyway because outside TH found to snipe
-			If CompareResources($TS) Then
-				SetLog($GetResourcesTXT, $COLOR_SUCCESS, "Lucida Console", 7.5)
-				SetLog("      " & "TH Outside Found! ", $COLOR_SUCCESS, "Lucida Console", 7.5)
-				$logwrited = True
-				$g_iMatchMode = $TS
-				ExitLoop
-			Else
-				$noMatchTxt &= ", Not a " & $g_asModeText[$TS] & ", fails resource min"
-			EndIf
 		EndIf
 
 		If $match[$DB] And Not $dbBase Then

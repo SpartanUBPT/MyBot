@@ -761,31 +761,7 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 	If $g_bDebugMakeIMGCSV Then AttackCSVDEBUGIMAGE() ;make IMG debug
 	If $g_bDebugAttackCSV Then _LogObjList($g_oBldgAttackInfo) ; display dictionary for raw find image debug
 
-	; 13 - START TH SNIPE BEFORE ATTACK CSV IF NEED ------------------------------------------
-	If $g_bTHSnipeBeforeEnable[$DB] And $g_iSearchTH = "-" Then FindTownHall(True) ;search townhall if no previous detect
-	If $g_bTHSnipeBeforeEnable[$DB] Then
-		If $g_iSearchTH <> "-" Then
-			If SearchTownHallLoc() Then
-				SetLogCentered(" TH snipe Before Scripted Attack ", Default, $COLOR_INFO)
-				$g_bTHSnipeUsedKing = False
-				$g_bTHSnipeUsedQueen = False
-				AttackTHParseCSV()
-			Else
-				If $g_bDebugSetlog Then SetDebugLog("TH snipe before scripted attack skip, th internal village", $COLOR_DEBUG)
-			EndIf
-		Else
-			If $g_bDebugSetlog Then SetDebugLog("TH snipe before scripted attack skip, no th found", $COLOR_DEBUG)
-		EndIf
-	EndIf
-
-	; 14 - LAUNCH PARSE FUNCTION -------------------------------------------------------------
-	 SetSlotSpecialTroops()
-	If _Sleep($DELAYRESPOND) Then Return
-
-;	If TestCapture() = True Then
-;		; no launch when testing with image
-;		Return
-;	EndIf
+If _Sleep($DELAYRESPOND) Then Return
 
 	ParseAttackCSV($testattack)
 

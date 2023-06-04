@@ -53,7 +53,7 @@ Func PrepareAttack($pMatchMode, $Remaining = False, $DebugSiege = False) ;Assign
 	Local $aPaths = [$g_sImgSwitchSiegeCastle, $g_sImgSwitchSiegeWallWrecker, $g_sImgSwitchSiegeBattleBlimp]
 	Local $ToUse = $eCastle, $iDa = 0
 
-	If ($pMatchMode = $DB Or $pMatchMode = $LB Or $pMatchMode = $TS) And Not $Remaining Then
+	If ($pMatchMode = $DB Or $pMatchMode = $LB) And Not $Remaining Then
 		; Default is CC ,let's check Siege Machines , if is to be used and exist.
 		If $g_abAttackDropCC[$pMatchMode] And $g_aiAttackUseSiege[$pMatchMode] = 2 And ($g_aiCurrentSiegeMachines[$eSiegeBattleBlimp] > 0 Or $g_aiCurrentCCSiegeMachines[$eSiegeBattleBlimp] > 0) Then
 			$ToUse = $eBattleB
@@ -242,63 +242,53 @@ Func PrepareAttack($pMatchMode, $Remaining = False, $DebugSiege = False) ;Assign
 EndFunc   ;==>PrepareAttack
 
 Func IsTroopToBeUsed($pMatchMode, $pTroopType)
-	If $pMatchMode = $DT Or $pMatchMode = $TB Then Return True
-	If $pMatchMode = $MA Then
-		Local $tempArr = $g_aaiTroopsToBeUsed[$g_aiAttackTroopSelection[$DB]]
-	Else
-		Local $tempArr = $g_aaiTroopsToBeUsed[$g_aiAttackTroopSelection[$pMatchMode]]
-	EndIf
+	If $pMatchMode = $DT Then Return True
+	Local $tempArr = $g_aaiTroopsToBeUsed[$g_aiAttackTroopSelection[$pMatchMode]]
 	For $x = 0 To UBound($tempArr) - 1
 		If $tempArr[$x] = $pTroopType Then
-			If $pMatchMode = $MA And $pTroopType = $eGobl Then ;exclude goblins in $MA
-				Return False
-			Else
-				Return True
-			EndIf
+			Return True
 		EndIf
 	Next
 	Return False
 EndFunc   ;==>IsTroopToBeUsed
 
 Func IsSpecialTroopToBeUsed($pMatchMode, $pTroopType)
-	Local $iTempMode = ($pMatchMode = $MA ? $DB : $pMatchMode)
-
-	If $pMatchMode <> $DB And $pMatchMode <> $LB And $pMatchMode <> $TS And $pMatchMode <> $MA Then
+	If $pMatchMode <> $DB And $pMatchMode <> $LB Then
 		Return True
 	Else
 		Switch $pTroopType
 			Case $eKing
-				If (BitAND($g_aiAttackUseHeroes[$iTempMode], $eHeroKing) = $eHeroKing) Then Return True
+				If (BitAND($g_aiAttackUseHeroes[$pMatchMode], $eHeroKing) = $eHeroKing) Then Return True
 			Case $eQueen
-				If (BitAND($g_aiAttackUseHeroes[$iTempMode], $eHeroQueen) = $eHeroQueen) Then Return True
+				If (BitAND($g_aiAttackUseHeroes[$pMatchMode], $eHeroQueen) = $eHeroQueen) Then Return True
 			Case $eWarden
-				If (BitAND($g_aiAttackUseHeroes[$iTempMode], $eHeroWarden) = $eHeroWarden) Then Return True
+				If (BitAND($g_aiAttackUseHeroes[$pMatchMode], $eHeroWarden) = $eHeroWarden) Then Return True
 			Case $eCastle
-				If $g_abAttackDropCC[$iTempMode] Then Return True
+				If $g_abAttackDropCC[$pMatchMode] Then Return True
 			Case $eLSpell
-				If $g_abAttackUseLightSpell[$iTempMode] Or $g_bSmartZapEnable = True Then Return True
+				If $g_abAttackUseLightSpell[$pMatchMode] Or $g_bSmartZapEnable = True Then Return True
 			Case $eHSpell
-				If $g_abAttackUseHealSpell[$iTempMode] Then Return True
+				If $g_abAttackUseHealSpell[$pMatchMode] Then Return True
 			Case $eRSpell
-				If $g_abAttackUseRageSpell[$iTempMode] Then Return True
+				If $g_abAttackUseRageSpell[$pMatchMode] Then Return True
 			Case $eJSpell
-				If $g_abAttackUseJumpSpell[$iTempMode] Then Return True
+				If $g_abAttackUseJumpSpell[$pMatchMode] Then Return True
 			Case $eFSpell
-				If $g_abAttackUseFreezeSpell[$iTempMode] Then Return True
+				If $g_abAttackUseFreezeSpell[$pMatchMode] Then Return True
 			Case $ePSpell
-				If $g_abAttackUsePoisonSpell[$iTempMode] Then Return True
+				If $g_abAttackUsePoisonSpell[$pMatchMode] Then Return True
 			Case $eESpell
-				If $g_abAttackUseEarthquakeSpell[$iTempMode] = 1 Or $g_bSmartZapEnable = True Then Return True
+				If $g_abAttackUseEarthquakeSpell[$pMatchMode] Or $g_bSmartZapEnable Then Return True
 			Case $eHaSpell
-				If $g_abAttackUseHasteSpell[$iTempMode] Then Return True
+				If $g_abAttackUseHasteSpell[$pMatchMode] Then Return True
 			Case $eCSpell
-				If $g_abAttackUseCloneSpell[$iTempMode] Then Return True
+				If $g_abAttackUseCloneSpell[$pMatchMode] Then Return True
 			Case $eSkSpell
-				If $g_abAttackUseSkeletonSpell[$iTempMode] Then Return True
+				If $g_abAttackUseSkeletonSpell[$pMatchMode] Then Return True
 			Case $eWallW
-				If $g_abAttackDropCC[$iTempMode] Then Return True
+				If $g_abAttackDropCC[$pMatchMode] Then Return True
 			Case $eBattleB
-				If $g_abAttackDropCC[$iTempMode] Then Return True
+				If $g_abAttackDropCC[$pMatchMode] Then Return True
 			Case Else
 				Return False
 		EndSwitch

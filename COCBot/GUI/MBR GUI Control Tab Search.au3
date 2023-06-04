@@ -107,10 +107,6 @@ Func btnConfigureReduction()
 ;~ 	OpenGUISearchReduction()
 EndFunc   ;==>btnConfigureReduction
 
-Func btnConfigureTHBully()
-;~ 	OpenGUITHBully()
-EndFunc   ;==>btnConfigureTHBully
-
 Func btnConfigureDBWeakBase()
 ;~ 	OpenGUIWeakbase($DB)
 EndFunc   ;==>btnConfigureDBWeakBase
@@ -251,35 +247,9 @@ Func EnableSearchPanels($mode)
 				;end battle
 				;_GUI_Value_STATE("HIDE", $groupEndBattkeAB)
 			EndIf
-		Case $TS
-			If GUICtrlRead($g_hChkTSActivateSearches) = $GUI_CHECKED Or GUICtrlRead($g_hChkTSActivateTropies) = $GUI_CHECKED Or GUICtrlRead($g_hChkTSActivateCamps) = $GUI_CHECKED Then
-				;search
-				_GUI_Value_STATE("SHOW", $groupSearchTS)
-				cmbTSGoldElixir()
-				;attack
-				;_GUI_Value_STATE("SHOW", $groupAttackTS)
-				;_GUI_Value_STATE("SHOW", $groupIMGAttackTS)
-				;_GUI_Value_STATE("SHOW", $groupAttackTSSpell)
-				;_GUI_Value_STATE("SHOW", $groupIMGAttackTSSpell)
-				;end battle
-				;_GUI_Value_STATE("SHOW", $groupEndBattkeTS)
-			Else
-				;search
-				_GUI_Value_STATE("HIDE", $groupSearchTS)
-				;attack
-				;_GUI_Value_STATE("HIDE", $groupAttackTS)
-				;_GUI_Value_STATE("HIDE", $groupIMGAttackTS)
-				;_GUI_Value_STATE("HIDE", $groupAttackTSSpell)
-				;_GUI_Value_STATE("HIDE", $groupIMGAttackTSSpell)
-				;end battle
-				;_GUI_Value_STATE("HIDE", $groupEndBattkeTS)
-			EndIf
 	EndSwitch
 	;tabAttack()
 EndFunc   ;==>EnableSearchPanels
-
-
-
 
 Func chkABActivateSearches()
 	If GUICtrlRead($g_hChkABActivateSearches) = $GUI_CHECKED Then
@@ -335,55 +305,6 @@ Func chkABActivateCamps()
 	;EnableSearchPanels($LB)
 	abCheckall()
 EndFunc   ;==>chkABActivateCamps
-
-Func chkTSActivateSearches()
-	If GUICtrlRead($g_hChkTSActivateSearches) = $GUI_CHECKED Then
-		GUICtrlSetState($g_hTxtTSSearchesMin, $GUI_ENABLE)
-		GUICtrlSetState($g_hLblTSSearches, $GUI_ENABLE)
-		GUICtrlSetState($g_hTxtTSSearchesMax, $GUI_ENABLE)
-		;_GUI_Value_STATE("SHOW", $groupSearchTS)
-		;cmbTSGoldElixir()
-	Else
-		GUICtrlSetState($g_hTxtTSSearchesMin, $GUI_DISABLE)
-		GUICtrlSetState($g_hLblTSSearches, $GUI_DISABLE)
-		GUICtrlSetState($g_hTxtTSSearchesMax, $GUI_DISABLE)
-		;_GUI_Value_STATE("HIDE", $groupSearchTS)
-	EndIf
-	;EnableSearchPanels($TS)
-	tsCheckall()
-EndFunc   ;==>chkTSActivateSearches
-
-Func chkTSActivateTropies()
-	If GUICtrlRead($g_hChkTSActivateTropies) = $GUI_CHECKED Then
-		GUICtrlSetState($g_hTxtTSTropiesMin, $GUI_ENABLE)
-		GUICtrlSetState($g_hLblTSTropies, $GUI_ENABLE)
-		GUICtrlSetState($g_hTxtTSTropiesMax, $GUI_ENABLE)
-		;_GUI_Value_STATE("SHOW", $groupSearchTS)
-		;cmbTSGoldElixir()
-	Else
-		GUICtrlSetState($g_hTxtTSTropiesMin, $GUI_DISABLE)
-		GUICtrlSetState($g_hLblTSTropies, $GUI_DISABLE)
-		GUICtrlSetState($g_hTxtTSTropiesMax, $GUI_DISABLE)
-		;_GUI_Value_STATE("HIDE", $groupSearchTS)
-	EndIf
-	;EnableSearchPanels($TS)
-	tsCheckAll()
-EndFunc   ;==>chkTSActivateTropies
-
-Func chkTSActivateCamps()
-	If GUICtrlRead($g_hChkTSActivateCamps) = $GUI_CHECKED Then
-		GUICtrlSetState($g_hLblTSArmyCamps, $GUI_ENABLE)
-		GUICtrlSetState($g_hTxtTSArmyCamps, $GUI_ENABLE)
-		;_GUI_Value_STATE("SHOW", $groupSearchTS)
-		;cmbTSGoldElixir()
-	Else
-		GUICtrlSetState($g_hLblTSArmyCamps, $GUI_DISABLE)
-		GUICtrlSetState($g_hTxtTSArmyCamps, $GUI_DISABLE)
-		;_GUI_Value_STATE("HIDE", $groupSearchTS)
-	EndIf
-	;EnableSearchPanels($TS)
-	tsCheckAll()
-EndFunc   ;==>chkTSActivateCamps
 
 Func chkDBKingWait()
 	If $g_iTownHallLevel > 6 Or $g_iTownHallLevel = 0 Then ; Must be TH7 or above to have King
@@ -671,12 +592,6 @@ Func CmbABTH()
 	GUICtrlSetState($g_ahPicABMaxTH[$iCmbValue], $GUI_SHOW)
 EndFunc   ;==>CmbABTH
 
-Func CmbBullyMaxTH()
-	_GUI_Value_STATE("HIDE", $g_aGroupListPicBullyMaxTH)
-	Local $iCmbValue = _GUICtrlComboBox_GetCurSel($g_hCmbBullyMaxTH) + 6
-	GUICtrlSetState($g_ahPicBullyMaxTH[$iCmbValue], $GUI_SHOW)
-EndFunc   ;==>CmbBullyMaxTH
-
 Func dbCheckAll()
 	If BitAND(GUICtrlRead($g_hChkDBActivateSearches), GUICtrlRead($g_hChkDBActivateTropies), GUICtrlRead($g_hChkDBActivateCamps), GUICtrlRead($g_hChkDBSpellsWait)) = $GUI_UNCHECKED Then
 		GUICtrlSetState($g_hChkDeadbase, $GUI_UNCHECKED)
@@ -694,15 +609,6 @@ Func abCheckAll()
 	EndIf
 	tabSEARCH()
 EndFunc   ;==>abCheckAll
-
-Func tsCheckAll()
-	If BitAND(GUICtrlRead($g_hChkTSActivateSearches), GUICtrlRead($g_hChkTSActivateTropies), GUICtrlRead($g_hChkTSActivateCamps)) = $GUI_UNCHECKED Then
-		GUICtrlSetState($g_hChkTHSnipe, $GUI_UNCHECKED)
-	Else
-		GUICtrlSetState($g_hChkTHSnipe, $GUI_CHECKED)
-	EndIf
-	tabSEARCH()
-EndFunc   ;==>tsCheckAll
 
 Func chkNotWaitHeroes()
 	If $g_abAttackTypeEnable[$DB] Then $g_iSearchNotWaitHeroesEnable = $g_aiSearchNotWaitHeroesEnable[$DB]

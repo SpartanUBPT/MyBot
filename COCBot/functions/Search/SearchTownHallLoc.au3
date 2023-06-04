@@ -16,25 +16,6 @@
 Func SearchTownHallLoc()
 	Local $addtiles = 0
 
-	;how many distance tiles from border
-	Switch $g_iMatchMode
-		Case $TS
-			If $g_iArmyCapacity < 100 Then
-				$addtiles = $g_iAtkTSAddTilesWhileTrain
-			Else
-				$addtiles = $g_iAtkTSAddTilesFullTroops
-			EndIf
-		Case $LB
-			$addtiles = $g_iTHSnipeBeforeTiles[$LB]
-		Case $DB
-			If $g_bDuringMilkingAttack = True Then
-				$addtiles = $g_iMilkFarmTHMaxTilesFromBorder
-			Else
-				$addtiles = $g_iTHSnipeBeforeTiles[$DB]
-			EndIf
-	EndSwitch
-
-
 	; New Tile px on 44x44 map size : X = 16px and Y = 12px
 
 	;SetLog("th add tiles = " & $addtiles)

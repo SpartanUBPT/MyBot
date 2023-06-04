@@ -15,45 +15,10 @@
 
 Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 	If $g_bDebugSetlog Then SetDebugLog("algorithm_AllTroops()", $COLOR_DEBUG)
-	SetSlotSpecialTroops()
 
 	If _Sleep($DELAYALGORITHM_ALLTROOPS1) Then Return
 
 	SmartAttackStrategy($g_iMatchMode) ; detect redarea first to drop any troops
-
-	; If one of condtions passed then start TH snipe attack
-	; - detect matchmode TS
-	; - detect matchmode DB and enabled TH snipe before attack and th outside
-	; - detect matchmode LB and enabled TH snipe before attack and th outside
-	If ($g_iSearchTH = "-" And ($g_iMatchMode = $DB And $g_bTHSnipeBeforeEnable[$DB])) Or ($g_iSearchTH = "-" And ($g_iMatchMode = $LB And $g_bTHSnipeBeforeEnable[$LB])) Then
-		FindTownHall(True) ;If no previous detect townhall search th position
-	EndIf
-
-	Local $bTHSearchTemp = SearchTownHallLoc()
-	If $g_iMatchMode = $TS Or _
-			($g_iMatchMode = $DB And $g_bTHSnipeBeforeEnable[$DB] And $bTHSearchTemp = True) Or _
-			($g_iMatchMode = $LB And $g_bTHSnipeBeforeEnable[$LB] And $bTHSearchTemp = True) Then
-
-		SwitchAttackTHType()
-	EndIf
-
-	If $g_iMatchMode = $TS Then ; Return ;Exit attacking if trophy hunting and not bullymode
-		If ($g_bTHSnipeUsedKing = True Or $g_bTHSnipeUsedQueen = True) And ($g_bSmartZapEnable = True And $g_bSmartZapSaveHeroes = True) Then
-			SetLog("King and/or Queen dropped, close attack")
-			If $g_bSmartZapEnable = True Then SetLog("Skipping SmartZap to protect your royals!", $COLOR_FUCHSIA)
-		ElseIf IsAttackPage() And Not SmartZap() And $g_bTHSnipeUsedKing = False And $g_bTHSnipeUsedQueen = False Then
-			SetLog("Wait few sec before close attack")
-			If _Sleep(Random(0, 2, 1) * 1000) Then Return ;wait 0-2 second before exit if king and queen are not dropped
-		EndIf
-
-		;Apply to switch Attack Standard after THSnipe End  ==>
-		If CompareResources($DB) And $g_aiAttackAlgorithm[$DB] = 0 And $g_bEndTSCampsEnable And Int($g_CurrentCampUtilization / $g_iTotalCampSpace * 100) >= Int($g_iEndTSCampsPct) Then
-			$g_iMatchMode = $DB
-		Else
-			CloseBattle()
-			Return
-		EndIf
-	EndIf
 
 	Local $nbSides = 0
 	Switch $g_aiAttackStdDropSides[$g_iMatchMode]
@@ -289,33 +254,6 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 	SetLog("Finished Attacking, waiting for the battle to end")
 EndFunc   ;==>algorithm_AllTroops
 
-Func SetSlotSpecialTroops()
-	$g_iKingSlot = -1
-	$g_iQueenSlot = -1
-	$g_iClanCastleSlot = -1
-	$g_iWardenSlot = -1
-
-	For $i = 0 To UBound($g_avAttackTroops) - 1
-		If $g_avAttackTroops[$i][0] = $eCastle Or $g_avAttackTroops[$i][0] = $eWallW Or $g_avAttackTroops[$i][0] = $eBattleB Then
-			$g_iClanCastleSlot = $i
-		ElseIf $g_avAttackTroops[$i][0] = $eKing Then
-			$g_iKingSlot = $i
-		ElseIf $g_avAttackTroops[$i][0] = $eQueen Then
-			$g_iQueenSlot = $i
-		ElseIf $g_avAttackTroops[$i][0] = $eWarden Then
-			$g_iWardenSlot = $i
-		EndIf
-	Next
-
-	If $g_bDebugSetlog Then
-		SetDebugLog("SetSlotSpecialTroops() King Slot: " & $g_iKingSlot, $COLOR_DEBUG)
-		SetDebugLog("SetSlotSpecialTroops() Queen Slot: " & $g_iQueenSlot, $COLOR_DEBUG)
-		SetDebugLog("SetSlotSpecialTroops() Warden Slot: " & $g_iWardenSlot, $COLOR_DEBUG)
-		SetDebugLog("SetSlotSpecialTroops() Clan Castle Slot: " & $g_iClanCastleSlot, $COLOR_DEBUG)
-	EndIf
-
-EndFunc   ;==>SetSlotSpecialTroops
-
 Func CloseBattle()
 	If IsAttackPage() Then
 		For $i = 1 To 30
@@ -334,57 +272,52 @@ Func CloseBattle()
 
 EndFunc   ;==>CloseBattle
 
-
 Func SmartAttackStrategy($imode)
-	If $g_iMatchMode <> $MA Then ; (milking attack use own strategy)
+	If ($g_abAttackStdSmartAttack[$imode]) Then
+		SetLog("Calculating Smart Attack Strategy", $COLOR_INFO)
+		Local $hTimer = __TimerInit()
+		_CaptureRegion2()
+		_GetRedArea()
 
-		If ($g_abAttackStdSmartAttack[$imode]) Then
-			SetLog("Calculating Smart Attack Strategy", $COLOR_INFO)
-			Local $hTimer = __TimerInit()
-			_CaptureRegion2()
-			_GetRedArea()
+		SetLog("Calculated  (in " & Round(__TimerDiff($hTimer) / 1000, 2) & " seconds) :")
 
-			SetLog("Calculated  (in " & Round(__TimerDiff($hTimer) / 1000, 2) & " seconds) :")
-
-			If ($g_abAttackStdSmartNearCollectors[$imode][0] Or $g_abAttackStdSmartNearCollectors[$imode][1] Or $g_abAttackStdSmartNearCollectors[$imode][2]) Then
-				SetLog("Locating Mines, Collectors & Drills", $COLOR_INFO)
-				$hTimer = __TimerInit()
-				Global $g_aiPixelMine[0]
-				Global $g_aiPixelElixir[0]
-				Global $g_aiPixelDarkElixir[0]
-				Global $g_aiPixelNearCollector[0]
-				; If drop troop near gold mine
-				If $g_abAttackStdSmartNearCollectors[$imode][0] Then
-					$g_aiPixelMine = GetLocationMine()
-					If (IsArray($g_aiPixelMine)) Then
-						_ArrayAdd($g_aiPixelNearCollector, $g_aiPixelMine, 0, "|", @CRLF, $ARRAYFILL_FORCE_STRING)
-					EndIf
+		If ($g_abAttackStdSmartNearCollectors[$imode][0] Or $g_abAttackStdSmartNearCollectors[$imode][1] Or $g_abAttackStdSmartNearCollectors[$imode][2]) Then
+			SetLog("Locating Mines, Collectors & Drills", $COLOR_INFO)
+			$hTimer = __TimerInit()
+			Global $g_aiPixelMine[0]
+			Global $g_aiPixelElixir[0]
+			Global $g_aiPixelDarkElixir[0]
+			Global $g_aiPixelNearCollector[0]
+			; If drop troop near gold mine
+			If $g_abAttackStdSmartNearCollectors[$imode][0] Then
+				$g_aiPixelMine = GetLocationMine()
+				If (IsArray($g_aiPixelMine)) Then
+					_ArrayAdd($g_aiPixelNearCollector, $g_aiPixelMine, 0, "|", @CRLF, $ARRAYFILL_FORCE_STRING)
 				EndIf
-				; If drop troop near elixir collector
-				If $g_abAttackStdSmartNearCollectors[$imode][1] Then
-					$g_aiPixelElixir = GetLocationElixir()
-					If (IsArray($g_aiPixelElixir)) Then
-						_ArrayAdd($g_aiPixelNearCollector, $g_aiPixelElixir, 0, "|", @CRLF, $ARRAYFILL_FORCE_STRING)
-					EndIf
-				EndIf
-				; If drop troop near dark elixir drill
-				If $g_abAttackStdSmartNearCollectors[$imode][2] Then
-					$g_aiPixelDarkElixir = GetLocationDarkElixir()
-					If (IsArray($g_aiPixelDarkElixir)) Then
-						_ArrayAdd($g_aiPixelNearCollector, $g_aiPixelDarkElixir, 0, "|", @CRLF, $ARRAYFILL_FORCE_STRING)
-					EndIf
-				EndIf
-				SetLog("Located  (in " & Round(__TimerDiff($hTimer) / 1000, 2) & " seconds) :")
-				SetLog("[" & UBound($g_aiPixelMine) & "] Gold Mines")
-				SetLog("[" & UBound($g_aiPixelElixir) & "] Elixir Collectors")
-				SetLog("[" & UBound($g_aiPixelDarkElixir) & "] Dark Elixir Drill/s")
-				$g_aiNbrOfDetectedMines[$imode] += UBound($g_aiPixelMine)
-				$g_aiNbrOfDetectedCollectors[$imode] += UBound($g_aiPixelElixir)
-				$g_aiNbrOfDetectedDrills[$imode] += UBound($g_aiPixelDarkElixir)
-				UpdateStats()
 			EndIf
-
+			; If drop troop near elixir collector
+			If $g_abAttackStdSmartNearCollectors[$imode][1] Then
+				$g_aiPixelElixir = GetLocationElixir()
+				If (IsArray($g_aiPixelElixir)) Then
+					_ArrayAdd($g_aiPixelNearCollector, $g_aiPixelElixir, 0, "|", @CRLF, $ARRAYFILL_FORCE_STRING)
+				EndIf
+			EndIf
+			; If drop troop near dark elixir drill
+			If $g_abAttackStdSmartNearCollectors[$imode][2] Then
+				$g_aiPixelDarkElixir = GetLocationDarkElixir()
+				If (IsArray($g_aiPixelDarkElixir)) Then
+					_ArrayAdd($g_aiPixelNearCollector, $g_aiPixelDarkElixir, 0, "|", @CRLF, $ARRAYFILL_FORCE_STRING)
+				EndIf
+			EndIf
+			SetLog("Located  (in " & Round(__TimerDiff($hTimer) / 1000, 2) & " seconds) :")
+			SetLog("[" & UBound($g_aiPixelMine) & "] Gold Mines")
+			SetLog("[" & UBound($g_aiPixelElixir) & "] Elixir Collectors")
+			SetLog("[" & UBound($g_aiPixelDarkElixir) & "] Dark Elixir Drill/s")
+			$g_aiNbrOfDetectedMines[$imode] += UBound($g_aiPixelMine)
+			$g_aiNbrOfDetectedCollectors[$imode] += UBound($g_aiPixelElixir)
+			$g_aiNbrOfDetectedDrills[$imode] += UBound($g_aiPixelDarkElixir)
+			UpdateStats()
 		EndIf
-	EndIf
 
+	EndIf
 EndFunc   ;==>SmartAttackStrategy

@@ -159,8 +159,6 @@ Func TrainCustomArmy()
 
 	CheckIfArmyIsReady()
 
-	If ThSnipesSkiptrain() Then Return
-
 	If Not $g_bRunState Then Return
 	Local $rWhatToTrain = WhatToTrain(True, False) ; r in First means Result! Result of What To Train Function
 
@@ -284,7 +282,7 @@ Func CheckIfArmyIsReady()
 		EndIf
 	EndIf
 
-	If (IsSearchModeActive($DB) And checkCollectors(True, False)) Or IsSearchModeActive($LB) Or IsSearchModeActive($TS) Then
+	If (IsSearchModeActive($DB) And checkCollectors(True, False)) Or IsSearchModeActive($LB) Then
 		If $g_bFullArmy And $g_bCheckSpells And $bFullArmyHero And $bFullArmyCC And $bFullSiege Then
 			$g_bIsFullArmywithHeroesAndSpells = True
 			If $g_bFirstStart Then $g_bFirstStart = False
@@ -302,7 +300,7 @@ Func CheckIfArmyIsReady()
 			If Not $bFullArmyCC Then $g_bWaitForCCTroopSpell = True
 		EndIf
 	Else
-		If $g_bDebugSetlog Then SetDebugLog(" Army not ready: IsSearchModeActive($DB)=" & IsSearchModeActive($DB) & ", checkCollectors(True, False)=" & checkCollectors(True, False) & ", IsSearchModeActive($LB)=" & IsSearchModeActive($LB) & ", IsSearchModeActive($TS)=" & IsSearchModeActive($TS), $COLOR_DEBUG)
+		If $g_bDebugSetlog Then SetDebugLog(" Army not ready: IsSearchModeActive($DB)=" & IsSearchModeActive($DB) & ", checkCollectors(True, False)=" & checkCollectors(True, False) & ", IsSearchModeActive($LB)=" & IsSearchModeActive($LB), $COLOR_DEBUG)
 		$g_bIsFullArmywithHeroesAndSpells = False
 	EndIf
 
@@ -1984,22 +1982,3 @@ Func CheckValuesCost($Troop = "Arch", $troopQuantity = 1, $DebugLogs = 0)
 
 
 EndFunc   ;==>CheckValuesCost
-
-Func ThSnipesSkiptrain()
-	Local $iTemp = 0
-	; Check if the User will use TH snipes
-
-	If IsSearchModeActive($TS) And $g_bIsFullArmywithHeroesAndSpells Then
-		For $i = 0 To $eTroopCount - 1
-			If $g_aiArmyCompTroops[$i] > 0 Then $iTemp += 1
-		Next
-		If $iTemp = 1 Then Return False ; 	make troops before battle ( is using only one troop kind )
-		If $iTemp > 1 Then
-			SetLog("Skipping Training before Attack due to THSnipes!", $COLOR_INFO)
-			Return True ;	not making troops before battle
-		EndIf
-	Else
-		Return False ; 	Proceeds as usual
-	EndIf
-EndFunc   ;==>ThSnipesSkiptrain
-

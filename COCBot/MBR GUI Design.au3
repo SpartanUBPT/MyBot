@@ -34,7 +34,6 @@ MBR GUI Design.au3; CreateMainGUI()
 		 MBR GUI Design Child Attack - Deadbase.au3; CreateAttackSearchDeadBase()
 			MBR GUI Design Child Attack - Deadbase Attack Standard.au3; CreateAttackSearchDeadBaseStandard()
 			MBR GUI Design Child Attack - Deadbase Attack Scripted.au3; CreateAttackSearchDeadBaseScripted()
-			MBR GUI Design Child Attack - Deadbase Attack Milking.au3; CreateAttackSearchDeadBaseMilking()
 			MBR GUI Design Child Attack - Deadbase-Search.au3; CreateAttackSearchDeadBaseSearch()
 			MBR GUI Design Child Attack - Deadbase-Attack.au3; CreateAttackSearchDeadBaseAttack()
 			MBR GUI Design Child Attack - Deadbase-EndBattle.au3; CreateAttackSearchDeadBaseEndBattle()
@@ -45,11 +44,6 @@ MBR GUI Design.au3; CreateMainGUI()
 			MBR GUI Design Child Attack - Activebase-Search.au3; CreateAttackSearchActiveBaseSearch()
 			MBR GUI Design Child Attack - Activebase-Attack.au3; CreateAttackSearchActiveBaseAttack()
 			MBR GUI Design Child Attack - Activebase-EndBattle.au3; CreateAttackSearchActiveBaseEndBattle()
-		 MBR GUI Design Child Attack - THSnipe.au3; CreateAttackSearchTHSnipe()
-			MBR GUI Design Child Attack - THSnipe-Search.au3; CreateAttackSearchTHSnipeSearch()
-			MBR GUI Design Child Attack - THSnipe-Attack.au3; CreateAttackSearchTHSnipeAttack()
-			MBR GUI Design Child Attack - THSnipe-EndBattle.au3; CreateAttackSearchTHSnipeEndBattle()
-		 MBR GUI Design Child Attack - Bully.au3; CreateAttackSearchBully()
 		 MBR GUI Design Child Attack - Options.au3; CreateAttackSearchOptions()
 			MBR GUI Design Child Attack - Options-Search.au3; CreateAttackSearchOptionsSearch()
 			MBR GUI Design Child Attack - Options-Attack.au3; CreateAttackSearchOptionsAttack()
@@ -416,7 +410,6 @@ Func CreateMainGUIControls($bGuiModeUpdate = False)
 	Static $g_hGUI_SEARCH_TAB_ImageList = 0
 	Static $g_hGUI_DEADBASE_TAB_ImageList = 0
 	Static $g_hGUI_ACTIVEBASE_TAB_ImageList = 0
-	Static $g_hGUI_THSNIPE_TAB_ImageList = 0
 	Static $g_hGUI_ATTACKOPTION_TAB_ImageList = 0
 	Static $g_hGUI_BOT_TAB_ImageList = 0
 	Static $g_hGUI_STATS_TAB_ImageList = 0
@@ -434,7 +427,6 @@ Func CreateMainGUIControls($bGuiModeUpdate = False)
 	Bind_ImageList($g_hGUI_SEARCH_TAB, $g_hGUI_SEARCH_TAB_ImageList)
 	Bind_ImageList($g_hGUI_DEADBASE_TAB, $g_hGUI_DEADBASE_TAB_ImageList)
 	Bind_ImageList($g_hGUI_ACTIVEBASE_TAB, $g_hGUI_ACTIVEBASE_TAB_ImageList)
-	Bind_ImageList($g_hGUI_THSNIPE_TAB, $g_hGUI_THSNIPE_TAB_ImageList)
 	Bind_ImageList($g_hGUI_ATTACKOPTION_TAB, $g_hGUI_ATTACKOPTION_TAB_ImageList)
 
 	Bind_ImageList($g_hGUI_BOT_TAB, $g_hGUI_BOT_TAB_ImageList)

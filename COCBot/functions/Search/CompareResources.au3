@@ -118,7 +118,7 @@ Func CompareTH($pMode)
 			$THLO = 1
 	EndSwitch
 	$g_iSearchTHLResult = 0
-	If $THL > -1 And $THL <= $g_iAtkTBMaxTHLevel And $g_iSearchTH <> "-" Then $g_iSearchTHLResult = 1
+	If $THL > -1 And $g_iSearchTH <> "-" Then $g_iSearchTHLResult = 1
 	If $g_abFilterMeetOneConditionEnable[$pMode] Then
 		If $g_abFilterMeetTH[$pMode] Then
 			If $THL <> -1 And $THL <= $g_aiFilterMeetTHMin[$pMode] Then Return True

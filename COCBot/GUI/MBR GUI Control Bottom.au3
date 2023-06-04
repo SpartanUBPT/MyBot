@@ -211,13 +211,6 @@ Func btnAttackNowLB()
 	EndIf
 EndFunc   ;==>btnAttackNowLB
 
-Func btnAttackNowTS()
-	If $g_bRunState Then
-		$g_bBtnAttackNowPressed = True
-		$g_iMatchMode = $TS
-	EndIf
-EndFunc   ;==>btnAttackNowTS
-
 ;~ Hide Android Window again without overwriting $botPos[0] and [1]
 Func reHide()
 	WinGetAndroidHandle()
