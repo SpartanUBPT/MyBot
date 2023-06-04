@@ -57,7 +57,6 @@ MBR GUI Design.au3; CreateMainGUI()
 			MBR GUI Design Child Attack - NewSmartZap.au3; CreateAttackNewSmartZap()
 			MBR GUI Design Child Attack - Options-EndBattle.au3;CreateAttackSearchOptionsEndBattle()
 			MBR GUI Design Child Attack - Options-TrophySettings.au3; CreateAttackSearchOptionsTrophySettings()
-	  MBR GUI Design Child Attack - Strategies.au3; CreateAttackStrategies()
 
    MBR GUI Design Bot.au3; CreateBotTab()
 	  MBR GUI Design Child Bot - Options.au3; CreateBotOptions()
@@ -420,7 +419,6 @@ Func CreateMainGUIControls($bGuiModeUpdate = False)
 	Static $g_hGUI_ACTIVEBASE_TAB_ImageList = 0
 	Static $g_hGUI_THSNIPE_TAB_ImageList = 0
 	Static $g_hGUI_ATTACKOPTION_TAB_ImageList = 0
-	Static $g_hGUI_STRATEGIES_TAB_ImageList = 0
 	Static $g_hGUI_BOT_TAB_ImageList = 0
 	Static $g_hGUI_STATS_TAB_ImageList = 0
 
@@ -439,7 +437,6 @@ Func CreateMainGUIControls($bGuiModeUpdate = False)
 	Bind_ImageList($g_hGUI_ACTIVEBASE_TAB, $g_hGUI_ACTIVEBASE_TAB_ImageList)
 	Bind_ImageList($g_hGUI_THSNIPE_TAB, $g_hGUI_THSNIPE_TAB_ImageList)
 	Bind_ImageList($g_hGUI_ATTACKOPTION_TAB, $g_hGUI_ATTACKOPTION_TAB_ImageList)
-	Bind_ImageList($g_hGUI_STRATEGIES_TAB, $g_hGUI_STRATEGIES_TAB_ImageList)
 
 	Bind_ImageList($g_hGUI_BOT_TAB, $g_hGUI_BOT_TAB_ImageList)
 

@@ -30,7 +30,6 @@ Func CreateBotProfiles()
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Bot - Profiles", "CmbProfile_Info_01", "Use this to switch to a different profile")& @CRLF & _
 							   GetTranslatedFileIni("MBR GUI Design Child Bot - Profiles", "CmbProfile_Info_02", "Your profiles can be found in") & ": " & @CRLF & $g_sProfilePath)
 			setupProfileComboBox()
-			PopulatePresetComboBox()
 			GUICtrlSetState(-1, $GUI_SHOW)
 			GUICtrlSetOnEvent(-1, "cmbProfile")
 		$g_hTxtVillageName = GUICtrlCreateInput(GetTranslatedFileIni("MBR Popups", "MyVillage", "MyVillage"), $x - 3, $y, 115, 22, $ES_AUTOHSCROLL)

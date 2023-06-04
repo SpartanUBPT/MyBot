@@ -28,7 +28,6 @@ Func _Ini_Load($filename)
 	Local $sCurrentSection = "general"
 
 	While @error = 0
-
 		; Section break
 		If StringLeft($sLine, 1) = "[" Then
 			Local $asParts = StringSplit($sLine, "[]")
@@ -37,10 +36,7 @@ Func _Ini_Load($filename)
 				Exit
 			Else
 				$sCurrentSection = $asParts[2]
-				;SetDebugLog("New section: " & $sCurrentSection)
 			EndIf
-
-			; Key/value pair
 		Else
 			Local $asParts = StringSplit($sLine, "=")
 			If $asParts[0] <> 2 Then
@@ -53,7 +49,6 @@ Func _Ini_Load($filename)
 
 		$sLine = FileReadLine($hFile)
 	WEnd
-
 	FileClose($hFile)
 EndFunc   ;==>_Ini_Load
 
@@ -64,50 +59,15 @@ Func _Ini_Save($filename)
 	FileCopy($filename, $filename & ".bak", $FC_OVERWRITE)
 
 	Local $hFile = FileOpen($filename, $FO_OVERWRITE + $FO_UTF16_LE)
-
 	Local $sCurrentSection = ""
 
 	For $i = 0 To $g_iIniLineCount - 1
-
 		Local $asParts = StringSplit($g_asIniTable[$i][0], "|")
 		If $asParts[1] <> $sCurrentSection Then
 			$sCurrentSection = $asParts[1]
 			FileWriteLine($hFile, "[" & $sCurrentSection & "]")
-			; Strategies File
-			If $g_sProfileSecondaryOutputFileName <> "" Then
-				If $sCurrentSection = "search" Or _
-						$sCurrentSection = "attack" Or _
-						$sCurrentSection = "troop" Or _
-						$sCurrentSection = "spells" Or _
-						$sCurrentSection = "milkingattack" Or _
-						$sCurrentSection = "endbattle" Or _
-						$sCurrentSection = "collectors" Or _
-						$sCurrentSection = "DropOrder" Or _
-						$sCurrentSection = "SmartZap" Or _
-						$sCurrentSection = "planned" Then
-					FileWriteLine($g_sProfileSecondaryOutputFileName, "[" & $sCurrentSection & "]")
-				EndIf
-			EndIf
 		EndIf
-
 		FileWriteLine($hFile, $asParts[2] & "=" & $g_asIniTable[$i][1])
-
-		; Strategies File
-		If $g_sProfileSecondaryOutputFileName <> "" Then
-			If $sCurrentSection = "search" Or _
-					$sCurrentSection = "attack" Or _
-					$sCurrentSection = "troop" Or _
-					$sCurrentSection = "spells" Or _
-					$sCurrentSection = "milkingattack" Or _
-					$sCurrentSection = "endbattle" Or _
-					$sCurrentSection = "collectors" Or _
-					$sCurrentSection = "DropOrder" Or _
-					$sCurrentSection = "SmartZap" Or _
-					$sCurrentSection = "planned" Then
-				FileWriteLine($g_sProfileSecondaryOutputFileName, $asParts[2] & "=" & $g_asIniTable[$i][1])
-			EndIf
-		EndIf
-
 	Next
 	FileClose($hFile)
 
@@ -119,7 +79,6 @@ Func _Ini_Clear()
 	$g_asIniTable = 0
 	Dim $g_asIniTable[$g_iIniLinesMax][3]
 	$g_iIniLineCount = 0
-	;SetDebugLog("Cleared Ini table")
 EndFunc   ;==>_Ini_Clear
 
 Func _Ini_Add($section, $key, $value)
@@ -151,7 +110,5 @@ Func _Ini_AddNewKeyValue($section, $key, $value)
 	EndIf
 	$g_asIniTable[$g_iIniLineCount][0] = $section & "|" & $key
 	$g_asIniTable[$g_iIniLineCount][1] = $value
-	;SetDebugLog("New key value pair: " & $g_iIniLineCount & " " & $g_asIniTable[$g_iIniLineCount][0] & "=" & $g_asIniTable[$g_iIniLineCount][1])
 	$g_iIniLineCount += 1
 EndFunc   ;==>_Ini_AddNewKeyValue
-

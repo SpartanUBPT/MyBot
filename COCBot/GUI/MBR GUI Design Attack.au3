@@ -15,12 +15,11 @@
 #include-once
 
 Global $g_hGUI_ATTACK = 0
-Global $g_hGUI_ATTACK_TAB = 0, $g_hGUI_ATTACK_TAB_ITEM1 = 0, $g_hGUI_ATTACK_TAB_ITEM2 = 0, $g_hGUI_ATTACK_TAB_ITEM3 = 0
+Global $g_hGUI_ATTACK_TAB = 0, $g_hGUI_ATTACK_TAB_ITEM1 = 0, $g_hGUI_ATTACK_TAB_ITEM2 = 0
 Global $g_hGUI_DropOrder = 0
 
 #include "MBR GUI Design Child Attack - Troops.au3"
 #include "MBR GUI Design Child Attack - Search.au3"
-#include "MBR GUI Design Child Attack - Strategies.au3"
 
 Func LoadTranslatedDropOrderList()
 	Global $g_asDropOrderList = ["", _
@@ -43,13 +42,11 @@ Func CreateAttackTab()
 
 	CreateAttackTroops()
 	CreateAttackSearch()
-	CreateAttackStrategies()
 
 	GUISwitch($g_hGUI_ATTACK)
 	$g_hGUI_ATTACK_TAB = GUICtrlCreateTab(0, 0, $g_iSizeWGrpTab1, $g_iSizeHGrpTab1, BitOR($TCS_MULTILINE, $TCS_RIGHTJUSTIFY))
 	$g_hGUI_ATTACK_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_03_STab_01", "Train Army"))
 	$g_hGUI_ATTACK_TAB_ITEM2 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_03_STab_02", "Search && Attack"))
-	$g_hGUI_ATTACK_TAB_ITEM3 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_03_STab_03", "Strategies"))
 
 	; needed to init the window now, like if it's a tab
 	CreateDropOrderGUI()

@@ -431,7 +431,6 @@ Global $g_iThreads = 0 ; Used by ImgLoc for parallism (for this bot instance), 0
 ; Profile file/folder paths
 Global $g_sProfilePath = @ScriptDir & "\Profiles"
 Global $g_sPrivateProfilePath = @MyDocumentsDir & "\MyBot.run-Profiles" ; Used to save private & very sensitive profile information like shared_prefs (notification tokens will be saved in future here also)
-Global Const $g_sProfilePresetPath = @ScriptDir & "\Strategies"
 Global $g_sProfileCurrentName = "" ; Name of profile currently being used
 Global $g_sProfileConfigPath = "" ; Path to the current config.ini being used in this profile
 Global $g_sProfileBuildingStatsPath = "" ; Path to stats_chkweakbase.ini file for this profile
@@ -541,7 +540,6 @@ Global Enum $eIcnArcher = 1, $eIcnDonArcher, $eIcnBalloon, $eIcnDonBalloon, $eIc
 Global $eIcnDonBlank = $eIcnDonBlacklist
 Global $eIcnOptions = $eIcnDonBlacklist
 Global $eIcnAchievements = $eIcnMain
-Global $eIcnStrategies = $eIcnBlank
 
 ; Controls bot startup and ongoing operation
 Global Const $g_iCollectAtCount = 10 ; Run Collect() after this amount of times before actually collect
@@ -1164,9 +1162,6 @@ Global $g_bShareAttackEnable = 0, $g_iShareMinGold = 300000, $g_iShareMinElixir 
 ; <><><><> Attack Plan / Search & Attack / Options / Trophy Settings <><><><>
 Global $g_bDropTrophyEnable = False, $g_iDropTrophyMax = 1200, $g_iDropTrophyMin = 800, $g_bDropTrophyUseHeroes = False, $g_iDropTrophyHeroesPriority = 0, _
 		$g_bDropTrophyAtkDead = 0, $g_iDropTrophyArmyMinPct = 70
-
-; <><><><> Attack Plan / Strategies <><><><>
-; <<< nothing here >>>
 
 ; <><><><> Bot / Options <><><><>
 Global $g_sLanguage = "English"

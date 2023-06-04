@@ -44,7 +44,6 @@ Global $g_hFrmBot_WNDPROC_ptr = 0
 #include "GUI\MBR GUI Control Child Upgrade.au3"
 #include "GUI\MBR GUI Control Donate.au3"
 #include "GUI\MBR GUI Control Bot Options.au3"
-#include "GUI\MBR GUI Control Preset.au3"
 #include "GUI\MBR GUI Control Child Misc.au3"
 #include "GUI\MBR GUI Control Android.au3"
 #include "MBR GUI Action.au3"
@@ -1147,7 +1146,6 @@ Func BotGuiModeToggle()
 			GUICtrlDelete($g_hGUI_ACTIVEBASE_TAB)
 			GUICtrlDelete($g_hGUI_THSNIPE_TAB)
 			GUICtrlDelete($g_hGUI_ATTACKOPTION_TAB)
-			GUICtrlDelete($g_hGUI_STRATEGIES_TAB)
 			GUICtrlDelete($g_hGUI_BOT_TAB)
 			GUICtrlDelete($g_hGUI_LOG_SA)
 			GUICtrlDelete($g_hGUI_STATS_TAB)
@@ -1741,18 +1739,12 @@ Func tabAttack()
 	Local $tabidx = GUICtrlRead($g_hGUI_ATTACK_TAB)
 	Select
 		Case $tabidx = 0 ; ARMY tab
-			GUISetState(@SW_HIDE, $g_hGUI_STRATEGIES)
 			GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_TRAINARMY)
 			GUISetState(@SW_HIDE, $g_hGUI_SEARCH)
 		Case $tabidx = 1 ; SEARCH tab
-			GUISetState(@SW_HIDE, $g_hGUI_STRATEGIES)
 			GUISetState(@SW_HIDE, $g_hGUI_TRAINARMY)
 			GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_SEARCH)
 			tabSEARCH()
-		Case $tabidx = 2 ; NewSmartZap tab
-			GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_STRATEGIES)
-			GUISetState(@SW_HIDE, $g_hGUI_TRAINARMY)
-			GUISetState(@SW_HIDE, $g_hGUI_SEARCH)
 	EndSelect
 EndFunc   ;==>tabAttack
 
@@ -2023,7 +2015,7 @@ Func Bind_ImageList($nCtrl, ByRef $hImageList)
 
 		Case $g_hGUI_ATTACK_TAB
 			; the icons for attack tab
-			Local $aIconIndex = [$eIcnTrain, $eIcnMagnifier, $eIcnStrategies]
+			Local $aIconIndex = [$eIcnTrain, $eIcnMagnifier]
 
 		Case $g_hGUI_SEARCH_TAB
 			; the icons for SEARCH tab
@@ -2049,10 +2041,6 @@ Func Bind_ImageList($nCtrl, ByRef $hImageList)
 			; the icons for Bot tab
 			Local $aIconIndex = [$eIcnOptions, $eIcnAndroid, $eIcnProfile, $eIcnProfile, $eIcnGold]
 			; The Android Robot is a Google Trademark and follows Creative Common Attribution 3.0
-
-		Case $g_hGUI_STRATEGIES_TAB
-			; the icons for strategies tab
-			Local $aIconIndex = [$eIcnReload, $eIcnCopy]
 
 		Case $g_hGUI_STATS_TAB
 			; the icons for stats tab

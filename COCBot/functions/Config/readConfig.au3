@@ -255,9 +255,6 @@ Func ReadRegularConfig()
 	; <><><> Attack Plan / Train Army / Options <><><>
 	ReadConfig_641_1()
 
-	; <><><><> Attack Plan / Strategies <><><><>
-	; <<< nothing here >>>
-
 	; <><><><> Bot / Android <><><><>
 	; <<< nothing here >>>
 

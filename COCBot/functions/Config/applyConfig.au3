@@ -136,18 +136,7 @@ Func applyConfig($bRedrawAtExit = True, $TypeReadSave = "Read") ;Applies the dat
 	; <><><> Attack Plan / Train Army / Options <><><>
 	ApplyConfig_641_1($TypeReadSave)
 
-	; <><><><> Attack Plan / Strategies <><><><>
-	; <<< nothing here >>>
-
 	; <><><><> Bot / Profiles <><><><>
-	PopulatePresetComboBox()
-	MakeSavePresetMessage()
-	GUICtrlSetState($g_hLblLoadPresetMessage, $GUI_SHOW)
-	GUICtrlSetState($g_hTxtPresetMessage, $GUI_HIDE)
-	GUICtrlSetState($g_hBtnGUIPresetLoadConf, $GUI_HIDE)
-	GUICtrlSetState($g_hBtnGUIPresetDeleteConf, $GUI_HIDE + $GUI_DISABLE)
-	GUICtrlSetState($g_hChkDeleteConf, $GUI_HIDE + $GUI_UNCHECKED)
-	GUICtrlSetState($g_hChkDeleteConf, $GUI_HIDE)
 
 	; <><><><> Bot / Stats <><><><>
 	; <<< nothing here >>>

@@ -475,7 +475,6 @@ EndFunc   ;==>InitializeMBR
 Func SetupFilesAndFolders()
 
 	;DirCreate($sTemplates)
-	DirCreate($g_sProfilePresetPath)
 	DirCreate($g_sPrivateProfilePath & "\" & $g_sProfileCurrentName)
 	DirCreate($g_sProfilePath & "\" & $g_sProfileCurrentName)
 	DirCreate($g_sProfileLogsPath)
@@ -1019,7 +1018,7 @@ Func AttackMain() ;Main control for attack functions
 	ClickP($aAway, 1, 0, "#0000") ;Click Away to prevent any pages on top
 	If IsSearchAttackEnabled() Then
 		If (IsSearchModeActive($DB) And checkCollectors(True, False)) Or IsSearchModeActive($LB) Or IsSearchModeActive($TS) Then
-            If ProfileSwitchAccountEnabled() And ($g_aiAttackedCountSwitch[$g_iCurAccount] <= $g_aiAttackedCount - 2) Then checkSwitchAcc()
+			If ProfileSwitchAccountEnabled() And ($g_aiAttackedCountSwitch[$g_iCurAccount] <= $g_aiAttackedCount - 2) Then checkSwitchAcc()
 			If $g_bUseCCBalanced = True Then ;launch profilereport() only if option balance D/R it's activated
 				ProfileReport()
 				If Not $g_bRunState Then Return

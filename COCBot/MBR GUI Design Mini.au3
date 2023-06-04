@@ -57,7 +57,6 @@ MBR GUI Design.au3; CreateMainGUI()
 			MBR GUI Design Child Attack - NewSmartZap.au3; CreateAttackNewSmartZap()
 			MBR GUI Design Child Attack - Options-EndBattle.au3;CreateAttackSearchOptionsEndBattle()
 			MBR GUI Design Child Attack - Options-TrophySettings.au3; CreateAttackSearchOptionsTrophySettings()
-	  MBR GUI Design Child Attack - Strategies.au3; CreateAttackStrategies()
 
    MBR GUI Design Bot.au3; CreateBotTab()
 	  MBR GUI Design Child Bot - Options.au3; CreateBotOptions()
