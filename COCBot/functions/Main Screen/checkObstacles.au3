@@ -75,7 +75,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	; Detect All Reload Button errors => 1- Another device, 2- Take a break, 3- Connection lost or error, 4- Out of sync, 5- Inactive, 6- Maintenance
 	Local $aMessage = _PixelSearch($aIsReloadError[0], $aIsReloadError[1], $aIsReloadError[0] + 3, $aIsReloadError[1] + 11, Hex($aIsReloadError[2], 6), $aIsReloadError[3], $g_bNoCapturePixel)
-	If IsArray($aMessage) Or (UBound(decodeSingleCoord(FindImageInPlace("Error", $g_sImgError, "680,300(2,20)", False, $g_iAndroidLollipop))) > 1) Then
+	If IsArray($aMessage) Or (UBound(decodeSingleCoord(FindImageInPlace("Error", $g_sImgError, "680,300(2,20)", False, ""))) > 1) Then
 		If $g_bDebugSetlog Then SetDebugLog("(DC=" & _GetPixelColor($aIsConnectLost[0], $aIsConnectLost[1]) & ")(OoS=" & _GetPixelColor($aIsCheckOOS[0], $aIsCheckOOS[1]) & ")", $COLOR_DEBUG)
 		If $g_bDebugSetlog Then SetDebugLog("(Maintenance=" & _GetPixelColor($aIsMaintenance[0], $aIsMaintenance[1]) & ")(RateCoC=" & ")", $COLOR_DEBUG)
 		If $g_bDebugSetlog Then SetDebugLog("33B5E5=>true, 282828=>false", $COLOR_DEBUG)
@@ -138,7 +138,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 					PushSharedPrefs()
 					OpenCoC()
 				EndIf
-			Case _CheckPixel($aIsCheckOOS, $g_bNoCapturePixel) Or (UBound(decodeSingleCoord(FindImageInPlace("OOS", $g_sImgOutOfSync, "355,335,435,395", False, $g_iAndroidLollipop))) > 1) ; Check OoS
+			Case _CheckPixel($aIsCheckOOS, $g_bNoCapturePixel) Or (UBound(decodeSingleCoord(FindImageInPlace("OOS", $g_sImgOutOfSync, "355,335,435,395", False, ""))) > 1) ; Check OoS
 				SetLog("Out of Sync Error, Reloading CoC...", $COLOR_ERROR)
 			Case _CheckPixel($aIsMaintenance, $g_bNoCapturePixel) ; Check Maintenance
 				$Result = getOcrMaintenanceTime(171, 345 + $g_iMidOffsetY, "Check Obstacles OCR Maintenance Break=") ; OCR text to find wait time
@@ -174,9 +174,9 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 				If $g_bDebugImageSave Then DebugImageSave("ChkObstaclesReloadMsg_", False) ; debug only
 				;$Result = getOcrRateCoc(228, 390 + $g_iMidOffsetY, "Check Obstacles getOCRRateCoC= ")
 				Local $sRegion = "220,420(60,25)"
-				If $g_iAndroidVersionAPI >= $g_iAndroidLollipop Then
-					$sRegion = "555,400(60,25)"
-				EndIf
+				;If $g_iAndroidVersionAPI >= $g_iAndroidLollipop Then
+					;$sRegion = "555,400(60,25)"
+				;EndIf
 				$Result = decodeSingleCoord(FindImageInPlace("RateNever", $g_sImgAppRateNever, $sRegion, False, True))
 				If UBound($Result) > 1 Then
 					SetLog("Clash feedback window found, permanently closed!", $COLOR_ERROR)
@@ -431,27 +431,4 @@ Func UpdateGame()
 	; launch Play Store
 	SetLog("Open Play Store for Game Update...")
 	OpenPlayStoreGame()
-	#cs Finish that when time permits ;)
-		; wait 1 Minute to open
-
-		; Check for Update button
-		SetLog("Play Store Game update available"
-
-		; Check for Open button
-		SetLog("Play Store Game update not required"
-		Return Default
-
-		; press update button
-
-		; press accept button
-
-		; track progress, area 17,317 - 805,335
-
-		; Check for Open button
-		SetLog("Game updated"
-		Return True
-
-		SetLog("Game updated failed"
-		Return False
-	#ce
 EndFunc   ;==>UpdateGame

@@ -811,8 +811,8 @@ Func InitAndroid($bCheckOnly = False, $bLogChangesOnly = True)
 		If $g_sAndroidInstance = "" Then $g_sAndroidInstance = $g_avAndroidAppConfig[$g_iAndroidConfig][1]
 
 		; clear some values for optional vbox calls
-		$__VBoxGuestProperties = ""
-		$__VBoxExtraData = ""
+		;$__VBoxGuestProperties = ""
+		;$__VBoxExtraData = ""
 	EndIf
 
 	; call Android initialization routine
@@ -3497,10 +3497,6 @@ EndFunc   ;==>UpdateAndroidBackgroundMode
 
 Func GetAndroidCodeName($iAPI = $g_iAndroidVersionAPI)
 
-	If $iAPI >= $g_iAndroidNougat Then Return "Nougat"
-	If $iAPI >= $g_iAndroidLollipop Then Return "Lollipop"
-	If $iAPI >= $g_iAndroidJellyBean Then Return "JellyBean"
-
 	SetDebugLog("Unsupport Android API Version: " & $iAPI, $COLOR_ERROR)
 	Return ""
 EndFunc   ;==>GetAndroidCodeName
@@ -3698,7 +3694,7 @@ Func PushSharedPrefs($sProfile = $g_sProfileCurrentName, $bCloseGameIfRunning = 
 						; restore permissions and owner
 						Local $sPerm = Ls_l_PermissionsToNumber($aLs[$iSharedPrefs][0])
 						Local $sOwn = $aLs[$iSharedPrefs][1] & ":" & $aLs[$iSharedPrefs][2]
-						If $g_iAndroidVersionAPI >= $g_iAndroidNougat Then $sOwn = $aLs[$iSharedPrefs][2] & ":" & $aLs[$iSharedPrefs][3]
+						;If $g_iAndroidVersionAPI >= $g_iAndroidNougat Then $sOwn = $aLs[$iSharedPrefs][2] & ":" & $aLs[$iSharedPrefs][3]
 						AndroidAdbSendShellCommand("set result=$(chmod " & $sPerm & " /data/data/" & $g_sAndroidGamePackage & "/shared_prefs/* >&2)")
 						AndroidAdbSendShellCommand("set result=$(chown " & $sOwn & " /data/data/" & $g_sAndroidGamePackage & "/shared_prefs/* >&2)")
 						$Result = True

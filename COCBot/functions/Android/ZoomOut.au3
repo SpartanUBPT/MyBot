@@ -44,51 +44,6 @@ Func ZoomOut() ;Zooms out
 	Return $Result
 EndFunc   ;==>ZoomOut
 
-Func ZoomOutBlueStacks() ;Zooms out
-	; ctrl click is best and most stable for BlueStacks
-	Return ZoomOutCtrlClick(False, False, False, False, 250)
-   ;Return DefaultZoomOut("{DOWN}", 0)
-   ; ZoomOutCtrlClick doesn't cause moving buildings, but uses global Ctrl-Key and has taking focus problems
-   ;Return ZoomOutCtrlClick(True, False, False, False)
-EndFunc
-
-Func ZoomOutBlueStacks2()
-	If $__BlueStacks2Version_2_5_or_later = False Then
-		; ctrl click is best and most stable for BlueStacks, but not working after 2.5.55.6279 version
-		Return ZoomOutCtrlClick(False, False, False, False, 250)
-	Else
-		; newer BlueStacks versions don't work with Ctrl-Click, so fall back to original arraw key
-		Return DefaultZoomOut("{DOWN}", 0, True)
-	EndIf
-   ;Return DefaultZoomOut("{DOWN}", 0)
-   ; ZoomOutCtrlClick doesn't cause moving buildings, but uses global Ctrl-Key and has taking focus problems
-   ;Return ZoomOutCtrlClick(True, False, False, False)
-EndFunc
-
-Func ZoomOutMEmu()
-   ;ClickP($aAway) ; activate window first with Click Away (when not clicked zoom might not work)
-   Return DefaultZoomOut("{F3}", 0, True)
-EndFunc
-
-#cs
-Func ZoomOutLeapDroid()
-	Return ZoomOutCtrlWheelScroll(True, True, True, False)
-EndFunc
-
-Func ZoomOutKOPLAYER()
-   Return ZoomOutCtrlWheelScroll(False, False, False, True, -70, 15)
-EndFunc
-#ce
-
-Func ZoomOutDroid4X()
-   Return ZoomOutCtrlWheelScroll(True, True, True, True, Default, -5, 250)
-EndFunc
-
-Func ZoomOutNox()
-   Return ZoomOutCtrlWheelScroll(True, True, True, True, Default, -5, 250)
-   ;Return DefaultZoomOut("{CTRLDOWN}{DOWN}{CTRLUP}", 0)
-EndFunc
-
 Func DefaultZoomOut($ZoomOutKey = "{DOWN}", $tryCtrlWheelScrollAfterCycles = 40, $bAndroidZoomOut = True) ;Zooms out
 	Local $sFunc = "DefaultZoomOut"
 	Local $result0, $result1, $i = 0
